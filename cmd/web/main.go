@@ -8,12 +8,15 @@ import (
 	"net/http"
 	"os"
 
+	"vy.dao/tiny-snippet/pkg/models/postgresql"
+
 	_ "github.com/lib/pq"
 )
 
 type application struct {
 	errorLog *log.Logger
 	infoLog  *log.Logger
+	snippets *postgresql.SnippetModel
 }
 
 const (
@@ -43,6 +46,7 @@ func main() {
 	app := &application{
 		errorLog: errorLog,
 		infoLog:  infoLog,
+		snippets: &postgresql.SnippetModel{DB: db},
 	}
 
 	srv := &http.Server{
